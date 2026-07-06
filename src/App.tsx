@@ -1,10 +1,38 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, Component, type ReactNode } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import Layout from "@/components/Layout";
+
+class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean; error: Error | null }> {
+  constructor(props: { children: ReactNode }) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ padding: 40, fontFamily: "monospace", fontSize: 14 }}>
+          <h2 style={{ marginBottom: 16 }}>应用运行时出错</h2>
+          <pre style={{ whiteSpace: "pre-wrap", wordBreak: "break-all" }}>
+            {this.state.error?.message}
+            {"\n\n"}
+            {this.state.error?.stack}
+          </pre>
+          <button onClick={() => window.location.reload()} style={{ marginTop: 16, padding: "8px 16px" }}>
+            刷新重试
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 const Dashboard = lazy(() => import("@/pages/Dashboard"));
 const Accounts = lazy(() => import("@/pages/Accounts"));
@@ -52,28 +80,30 @@ const PageLoader = () => (
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <HashRouter>
-        <Suspense fallback={<PageLoader />}>
-          <Routes>
-            <Route path="/" element={<Layout><Dashboard /></Layout>} />
-            <Route path="/accounts" element={<Layout><Accounts /></Layout>} />
-            <Route path="/seats" element={<Layout><Seats /></Layout>} />
-            <Route path="/tasks" element={<Layout><Tasks /></Layout>} />
-            <Route path="/templates" element={<Layout><Templates /></Layout>} />
-            <Route path="/chat" element={<Layout><Chat /></Layout>} />
-            <Route path="/risk-control" element={<Layout><RiskControl /></Layout>} />
-            <Route path="/statistics" element={<Layout><Statistics /></Layout>} />
-            <Route path="/system" element={<Layout><System /></Layout>} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
-      </HashRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <HashRouter>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route path="/" element={<Layout><Dashboard /></Layout>} />
+              <Route path="/accounts" element={<Layout><Accounts /></Layout>} />
+              <Route path="/seats" element={<Layout><Seats /></Layout>} />
+              <Route path="/tasks" element={<Layout><Tasks /></Layout>} />
+              <Route path="/templates" element={<Layout><Templates /></Layout>} />
+              <Route path="/chat" element={<Layout><Chat /></Layout>} />
+              <Route path="/risk-control" element={<Layout><RiskControl /></Layout>} />
+              <Route path="/statistics" element={<Layout><Statistics /></Layout>} />
+              <Route path="/system" element={<Layout><System /></Layout>} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </HashRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 export default App;
