@@ -106,16 +106,16 @@ export default function Tasks() {
             <Table>
               <TableHeader>
                 <TableRow className="bg-muted/50">
-                  <TableHead className="w-36">任务名</TableHead>
-                  <TableHead className="w-20">分组</TableHead>
-                  <TableHead className="w-16">目标</TableHead>
-                  <TableHead className="w-28">模板</TableHead>
-                  <TableHead className="w-16">优先级</TableHead>
-                  <TableHead className="w-20">状态</TableHead>
-                  <TableHead className="w-32">进度</TableHead>
-                  <TableHead className="w-24">成功/失败</TableHead>
-                  <TableHead className="w-28">创建时间</TableHead>
-                  <TableHead className="w-16">操作</TableHead>
+                  <TableHead className="w-36 whitespace-nowrap">任务名</TableHead>
+                  <TableHead className="w-24 whitespace-nowrap">分组</TableHead>
+                  <TableHead className="w-20 whitespace-nowrap">目标</TableHead>
+                  <TableHead className="w-28 whitespace-nowrap">模板</TableHead>
+                  <TableHead className="w-24 whitespace-nowrap">优先级</TableHead>
+                  <TableHead className="w-20 whitespace-nowrap">状态</TableHead>
+                  <TableHead className="w-32 whitespace-nowrap">进度</TableHead>
+                  <TableHead className="w-28 whitespace-nowrap">成功/失败</TableHead>
+                  <TableHead className="w-32 whitespace-nowrap">创建时间</TableHead>
+                  <TableHead className="w-20 whitespace-nowrap">操作</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

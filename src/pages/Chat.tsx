@@ -197,8 +197,8 @@ export default function Chat() {
   };
 
   return (
-    <div className="space-y-4">
-      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "conversations" | "rules")}>
+    <div className="flex h-full flex-col gap-4">
+      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "conversations" | "rules")} className="flex min-h-0 flex-1 flex-col">
         <div className="flex items-center gap-2">
           <TabsList>
             <TabsTrigger value="conversations" className="gap-1.5">
@@ -220,11 +220,11 @@ export default function Chat() {
         </div>
 
         {/* === 会话标签页 === */}
-        <TabsContent value="conversations" className="mt-4">
-          <Card className="overflow-hidden">
-            <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] divide-x divide-border">
+        <TabsContent value="conversations" className="mt-4 min-h-0 flex-1">
+          <Card className="flex h-full flex-col overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] flex-1 min-h-0 divide-x divide-border">
               {/* 左侧会话列表 */}
-              <div className="flex flex-col max-h-[calc(100vh-220px)]">
+              <div className="flex flex-col h-full min-h-0">
                 <div className="p-2 border-b">
                   <div className="relative">
                     <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
@@ -238,7 +238,7 @@ export default function Chat() {
                 </div>
                 <ScrollArea className="flex-1">
                   {filteredConvs.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
+                    <div className="flex flex-col items-center justify-center h-full py-16 px-4 text-center">
                       <Inbox className="h-8 w-8 text-muted-foreground/50 mb-2" />
                       <p className="text-xs text-muted-foreground">暂无会话，点击模拟收信测试</p>
                     </div>
@@ -258,7 +258,7 @@ export default function Chat() {
               </div>
 
               {/* 右侧聊天窗口 */}
-              <div className="flex flex-col max-h-[calc(100vh-220px)] min-h-[400px]">
+              <div className="flex flex-col h-full min-h-0">
                 {selectedConv ? (
                   <>
                     {/* 聊天头部 */}
@@ -377,7 +377,7 @@ export default function Chat() {
         </TabsContent>
 
         {/* === 规则标签页 === */}
-        <TabsContent value="rules" className="mt-4 space-y-4">
+        <TabsContent value="rules" className="mt-4 space-y-4 flex-1 min-h-0 overflow-y-auto">
           {/* 匹配类型说明 */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {(Object.keys(MATCH_TYPE_DESC) as RuleMatchType[]).map((t) => (
@@ -408,14 +408,14 @@ export default function Chat() {
               <Table>
                 <TableHeader>
                   <TableRow className="bg-muted/50">
-                    <TableHead className="w-40">名称</TableHead>
-                    <TableHead className="w-24">匹配类型</TableHead>
-                    <TableHead>关键词 / 正则</TableHead>
-                    <TableHead>回复内容</TableHead>
-                    <TableHead className="w-16">优先级</TableHead>
-                    <TableHead className="w-16">命中</TableHead>
-                    <TableHead className="w-16">启用</TableHead>
-                    <TableHead className="w-24">操作</TableHead>
+                    <TableHead className="w-40 whitespace-nowrap">名称</TableHead>
+                    <TableHead className="w-24 whitespace-nowrap">匹配类型</TableHead>
+                    <TableHead className="whitespace-nowrap">关键词 / 正则</TableHead>
+                    <TableHead className="whitespace-nowrap">回复内容</TableHead>
+                    <TableHead className="w-20 whitespace-nowrap">优先级</TableHead>
+                    <TableHead className="w-20 whitespace-nowrap">命中</TableHead>
+                    <TableHead className="w-20 whitespace-nowrap">启用</TableHead>
+                    <TableHead className="w-24 whitespace-nowrap">操作</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
